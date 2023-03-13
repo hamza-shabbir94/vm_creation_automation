@@ -1,0 +1,8 @@
+---
+# tasks file for roles
+- name: Updating OS Kernel and all package in 
+  ansible.builtin.yum:
+    name: "*"
+    state: latest
+    skip_broken: true
+    disable_gpg_check: true
