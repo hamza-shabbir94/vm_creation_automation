@@ -1,7 +1,7 @@
 # updating the OS Packages is linux or centos
 ---
 - hosts: all
-  gather_fact: true
+  gather_facts: true
   become: true
   roles:
     - roles
