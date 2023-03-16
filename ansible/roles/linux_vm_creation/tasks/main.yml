@@ -1,0 +1,36 @@
+---
+# tasks file for linux_vm_creation
+- name: Creating a VM from a template
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname}}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: False
+    folder: /DC1/vm
+    name: "{{ hostvars.VM1 }}"
+    state: poweredon
+    tempalte: template_name
+    disk:
+    - size_gb: 10
+      type: thin
+      datastore: hostvars[inventory_hostname].datastor
+    - filename: "location_of_/.vmdk"    # in current template
+    hardware:
+      memory_mb: hostvars[inventory_hostname].memory
+      num_cpus: hostvars[inventory_hostname].CPU
+      num_cpu_cores_per_socket: hostvars[inventory_hostname].CPU_SOCKET
+      scsi: paravirtual
+      memory_reservation_lock: True
+      boot_firmware: "efi"
+    cdrom:
+        - controller_number: 0
+          unit_number: 0
+          state: present
+          type: iso
+          iso_path: "[datastore1] livecd.iso"
+    networks:
+    - name: VM Network
+      mac: aa:bb:dd:aa:00:14
+    wait_for_ip_address: true
+  delegate_to: localhost
+  register: deploy
