@@ -4,5 +4,6 @@
   gather_facts: true
   become: true
   roles:
-    - roles
+    - OS_Update: ansible_OS_update
+    - Extending_VM: Extending_VM_disk
 
